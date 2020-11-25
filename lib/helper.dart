@@ -6,7 +6,6 @@ class PostMkr {
 
   PostMkr() {
     this.title = "";
-    this.lst.add([0, ListItem()]);
   }
 
   setTitle(title) {

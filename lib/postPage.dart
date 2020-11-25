@@ -8,7 +8,7 @@ class PostPage extends StatefulWidget {
 
 class _PostPageState extends State<PostPage> {
   var post = PostMkr();
-  var curr = 1;
+  var curr = 0;
 
   @override
   Widget build(BuildContext context) {
@@ -20,12 +20,30 @@ class _PostPageState extends State<PostPage> {
     }
     var titleEditingController = TextEditingController(text: title);
 
+    _removeLst(lst, e) {
+      lst.removeAt(e);
+      List temp = lst.sublist(e);
+      List output = List();
+      int i = e;
+      temp.forEach((element) {
+        element[0] = i;
+        i++;
+      });
+      int j = 0;
+      for (int j = 0; j != e; j++) {
+        output.add(lst[j]);
+      }
+
+      output.addAll(temp);
+      return output;
+    }
+
     _addLst() {
       setState(() {
         post.addItems(curr);
+        curr++;
       });
       print(post.lst);
-      curr++;
     }
 
     _createLst(post) {
@@ -84,9 +102,17 @@ class _PostPageState extends State<PostPage> {
                     child: IconButton(
                         icon: Icon(Icons.clear),
                         onPressed: () {
+                          // print(entry.key);
+                          print(curr);
                           print(entry.key);
+                          print("Curr: " + post.lst[entry.key][0].toString());
                           setState(() {
-                            post.lst.removeAt(entry.key);
+                            post.lst = _removeLst(post.lst, entry.key);
+                            curr = post.lst.length;
+                            // print(post.lst.length % entry.key);
+                            // print(entry.key % post.lst.length);
+                            // print(post.lst);
+                            // print(post.lst.indexOf(entry));
                           });
                         })),
               ),
